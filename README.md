@@ -18,11 +18,9 @@ http://localhost:8080/#/
 
 ## 起服务
 ```
-// 1.  打包
-npm run build:client
-npm run build:server
-
-// 2. 启动
+1. 打包
+npm run build
+2. 启动服务
 npm run server
 
 // 3 浏览器访问
