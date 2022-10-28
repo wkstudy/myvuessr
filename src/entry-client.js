@@ -13,6 +13,7 @@ router.onReady(() => {
     const matched = router.getMatchedComponents(to);
     const prevMatched = router.getMatchedComponents(from);
 
+    console.log(333);
     let diffed = false;
     // 我们只关心非预渲染的组件
     // 所以我们对比它们，找出两个匹配列表的差异组件
@@ -27,7 +28,7 @@ router.onReady(() => {
 
     // 这里如果有加载指示器 (loading indicator)，就触发
 
-    Promise.all(activated.filter((c) => c.asyncData).map((c) => c.asyncData({ store, route: to })))
+    Promise.all(activated.filter((c) => c.asyncData).map((c) => c.asyncData({ store, route: router.currentRoute })))
       .then(() => {
         // 停止加载指示器(loading indicator)
 

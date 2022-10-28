@@ -1,43 +1,44 @@
-const server = require('express')()
-const path = require('path')
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const { createBundleRenderer } = require('vue-server-renderer');
 
-const Vue = require('vue');
-
-const template = require('fs').readFileSync(path.resolve(__dirname,'../index.html'), 'utf-8');
-
-const renderer = require('vue-server-renderer').createRenderer({
-  template,
+const app = express();
+const renderer = createBundleRenderer(require('../static/vue-ssr-server-bundle.json'), {
+  runInNewContext: false,
+  template: fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf-8'),
+  clientManifest: require('../static/vue-ssr-client-manifest.json'),
+});
+// app.use(express.static('static'));
+app.use(function (req, res, next) {
+  console.log('Time:', Date.now());
+  next();
 });
 
-const context = {
-    title: 'vue ssr',
-    metas: `
-        <meta name="keyword" content="vue,ssr">
-        <meta name="description" content="vue srr demo">
-    `,
-};
-
-server.get('*', (req, res) => {
-  const app = new Vue({
-    data: {
-      url: req.url
-    },
-    template: `<div>访问的 URL 是： {{ url }}</div>`,
-  });
-
-  renderer
-  .renderToString(app, context, (err, html) => {
-    console.log(html);
+app.all('/', (req, res) => {
+  const context = { url: req.url };
+  console.log(context, 'context');
+  renderer.renderToString(context, (err, html) => {
+    console.log(err);
     if (err) {
-      res.status(500).end('Internal Server Error')
+      res.status(500).end('Internal Server Error');
       return;
     }
+    console.log(html);
     res.end(html);
   });
-})
+});
+app.get('/api/getItem', (req, res) => {
+  console.log(2);
+  res.json({
+    a: '14',
+    name: 'joke',
+  });
+});
+app.get('/api/getname', (req, res) => {
+  res.json({
+    name: 'joke',
+  });
+});
 
-
-server.listen(3000)
-
-
-
+app.listen(3000);

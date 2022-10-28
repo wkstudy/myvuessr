@@ -1,24 +1,35 @@
 # myssr
+一套vue2的ssr demo,按照[Vue.js 服务器端渲染指南](https://v2.ssr.vuejs.org/zh/#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93-ssr)搭建
 
-## Project setup
+
+
+
+## 安装
 ```
 npm install
+
+```
+## h5开发
+```
+npm run dev:client
+
+http://localhost:8080/#/
 ```
 
-### Compiles and hot-reloads for development
+## 起服务
 ```
-npm run serve
+// 1.  打包
+npm run build:client
+npm run build:server
+
+// 2. 启动
+npm run server
+
+// 3 浏览器访问
+http://localhost:3000/#/
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

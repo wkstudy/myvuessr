@@ -1,16 +1,16 @@
-import Router from 'vue-router'
-import Vue from 'vue'
+import Router from 'vue-router';
+import Vue from 'vue';
 
-
-
-Vue.use(Router)
+Vue.use(Router);
 export const createRouter = () => {
   return new Router({
-    mode: 'hash',
-    routes: [{
-      name: 'home',
-      path: '/',
-      component: () => import('../views/Home.vue')
-    }]
-  })
-}
+    mode: 'history',
+    routes: [
+      {
+        name: 'home',
+        path: '/',
+        component: () => import('../views/Home.vue'),
+      },
+    ],
+  });
+};

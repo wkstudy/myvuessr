@@ -1,26 +1,30 @@
-import Vue  from "vue";
+import axios from 'axios';
+import Vue from 'vue';
 import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-import {getItem} from '../api'
+import { getItem } from '../api';
 export const createStore = () => {
   return new Vuex.Store({
     state: {
-      items: {}
+      items: {},
     },
     mutations: {
-      setItem(state, {id, item}) {
-        Vue.set(state.items, id, item)
-      }
+      setItem(state, { id, item }) {
+        Vue.set(state.items, id, item);
+      },
     },
     actions: {
-      fetchItem({commit}, id) {
-
-        return getItem(id).then((res) => {
-          commit('setItem', {id, res})
-        })
-      }
-    }
-  })
-}
+      fetchItem({ commit }, id) {
+        // todo
+        // return axios.get('http://localhost:3000/api/getItem').then(({ data }) => {
+        //   commit('setItem', { id, data });
+        // });
+        return Promise.resolve().then(() => {
+          commit('setItem', { id, item: { a: 2 } });
+        });
+      },
+    },
+  });
+};
