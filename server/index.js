@@ -23,16 +23,56 @@ app.get('/', (req, res) => {
     res.end(html);
   });
 });
+app.get('/about', (req, res) => {
+  const context = { url: req.url };
+  console.log(context, 'context');
+  renderer.renderToString(context, (err, html) => {
+    console.log(err);
+    if (err) {
+      res.status(500).end('Internal Server Error');
+      return;
+    }
+    res.end(html);
+  });
+});
 app.get('/api/getItem', (req, res) => {
   res.json({
     a: '14' + Math.random(),
-    name: 'joke',
+    name: 'carry',
   });
 });
 app.get('/api/getName', (req, res) => {
   res.json({
     name: 'peter' + Math.random(),
   });
+});
+app.get('/api/getLevel', (req, res) => {
+  res.json([
+    {
+      value: 0,
+      name: '青铜',
+    },
+    {
+      value: 1,
+      name: '白银',
+    },
+    {
+      value: 2,
+      name: '黄金',
+    },
+    {
+      value: 3,
+      name: '钻石',
+    },
+    {
+      value: 4,
+      name: '大师',
+    },
+    {
+      value: 5,
+      name: '王者',
+    },
+  ]);
 });
 
 app.listen(3000);

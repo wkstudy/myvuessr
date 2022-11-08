@@ -10,13 +10,12 @@ export default {
     };
   },
   computed: {
-    items() {
-      return this.$store.state.items;
+    test() {
+      return this.$store.state.items.test;
     },
   },
   methods: {
     hc() {
-      console.log(23232);
       getName().then((res) => {
         this.name = res.data.name;
       });
@@ -29,7 +28,7 @@ export default {
   <div>
     <div>this is home</div>
     <div>
-      {{ items.test }}
+      {{ test }}
     </div>
     <button @click="hc">click me</button>
     <div>name: {{ name }}</div>
