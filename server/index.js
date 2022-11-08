@@ -4,18 +4,14 @@ const fs = require('fs');
 const { createBundleRenderer } = require('vue-server-renderer');
 
 const app = express();
-const renderer = createBundleRenderer(require('../static/vue-ssr-server-bundle.json'), {
+const renderer = createBundleRenderer(require('../dist-server/vue-ssr-server-bundle.json'), {
   runInNewContext: false,
   template: fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf-8'),
-  clientManifest: require('../static/vue-ssr-client-manifest.json'),
+  clientManifest: require('../dist-client/vue-ssr-client-manifest.json'),
 });
-// app.use(express.static('static'));
-app.use(function (req, res, next) {
-  console.log('Time:', Date.now());
-  next();
-});
+app.use(express.static(path.resolve(__dirname, '../dist-client'), { index: false }));
 
-app.all('/', (req, res) => {
+app.get('/', (req, res) => {
   const context = { url: req.url };
   console.log(context, 'context');
   renderer.renderToString(context, (err, html) => {
@@ -24,20 +20,18 @@ app.all('/', (req, res) => {
       res.status(500).end('Internal Server Error');
       return;
     }
-    console.log(html);
     res.end(html);
   });
 });
 app.get('/api/getItem', (req, res) => {
-  console.log(2);
   res.json({
-    a: '14',
+    a: '14' + Math.random(),
     name: 'joke',
   });
 });
-app.get('/api/getname', (req, res) => {
+app.get('/api/getName', (req, res) => {
   res.json({
-    name: 'joke',
+    name: 'peter' + Math.random(),
   });
 });
 

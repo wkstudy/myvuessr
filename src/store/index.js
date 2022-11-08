@@ -11,19 +11,20 @@ export const createStore = () => {
       items: {},
     },
     mutations: {
-      setItem(state, { id, item }) {
-        Vue.set(state.items, id, item);
+      setItem(state, obj) {
+        Vue.set(state.items, 'test', obj);
       },
     },
     actions: {
-      fetchItem({ commit }, id) {
+      fetchItem({ commit }) {
         // todo
-        // return axios.get('http://localhost:3000/api/getItem').then(({ data }) => {
-        //   commit('setItem', { id, data });
-        // });
-        return Promise.resolve().then(() => {
-          commit('setItem', { id, item: { a: 2 } });
+        return axios.get('http://localhost:3000/api/getItem').then(({ data }) => {
+          console.log(data, 'data');
+          commit('setItem', data);
         });
+        // return Promise.resolve().then(() => {
+        //   commit('setItem', { id, item: { a: 2 } });
+        // });
       },
     },
   });

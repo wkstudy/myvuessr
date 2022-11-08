@@ -16,8 +16,8 @@ export default {
   },
   methods: {
     hc() {
+      console.log(23232);
       getName().then((res) => {
-        console.log(res, '2');
         this.name = res.data.name;
       });
     },
@@ -29,7 +29,7 @@ export default {
   <div>
     <div>this is home</div>
     <div>
-      {{ items }}
+      {{ items.test }}
     </div>
     <button @click="hc">click me</button>
     <div>name: {{ name }}</div>

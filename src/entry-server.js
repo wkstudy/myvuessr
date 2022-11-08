@@ -19,16 +19,11 @@ export default (context) => {
         return reject({ code: 404 });
       }
 
-      Promise.all[
+      Promise.all(
         matchedComponents
           .filter((component) => component.asyncData)
-          .map((component) => {
-            return component.asyncData({
-              store,
-              route: router.currentRoute,
-            });
-          })
-      ].then(() => {
+          .map((component) => component.asyncData({ store, route: router.currentRoute })),
+      ).then(() => {
         // 在所有预取钩子(preFetch hook) resolve 后，
         // 我们的 store 现在已经填充入渲染应用程序所需的状态。
         // 当我们将状态附加到上下文，

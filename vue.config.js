@@ -1,4 +1,3 @@
-const { defineConfig } = require('@vue/cli-service');
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 const nodeExternals = require('webpack-node-externals');
@@ -11,6 +10,12 @@ const config = {
     outputDir: 'dist-client',
     output: {
       libraryTarget: undefined,
+    },
+    optimization: {
+      splitChunks: {
+        name: 'manifest',
+        minChunks: Infinity,
+      },
     },
   },
   server: {
@@ -35,22 +40,23 @@ const config = {
       // 你还应该将修改 `global`（例如 polyfill）的依赖模块列入白名单
       allowlist: /\.css$/,
     }),
+    optimization: {},
   },
 };
-module.exports = defineConfig({
-  publicPath: '/static',
-  transpileDependencies: true,
+module.exports = {
+  // transpileDependencies: true,
   outputDir: config[process.env.MODE].outputDir,
 
   configureWebpack: () => ({
     entry: config[process.env.MODE].entry,
     target: config[process.env.MODE].target,
     output: {
-      libraryTarget: config[process.env.MODE].output.libraryTarget,
+      ...config[process.env.MODE].output,
     },
     // 对 bundle renderer 提供 source map 支持
     devtool: 'source-map',
     plugins: config[process.env.MODE].plugins,
     externals: config[process.env.MODE].externals,
+    optimization: config[process.env.MODE].optimization,
   }),
-});
+};
